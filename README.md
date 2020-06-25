@@ -14,23 +14,6 @@ More info about project: https://github.com/firehol/netdata
 > More info about the original telemetry implementation in netdata is on [issue #4735](https://github.com/netdata/netdata/issues/4735), and instructions
 > / documentation, including a way to opt out of telemetry is available here: [anonymous statistics docs page](https://docs.netdata.cloud/docs/anonymous-statistics/).
 
-# More info about me
-
-I'm primarily a full-stack web developer with strong knowledge of Docker, APIs, AWS, PHP, Go, Nginx+LUA, SQL and NoSQL databases, Video Streaming (Wowza Media Server), and handle DevOps/automation for several large scale international clients (High traffic/HA deployments).
-
-If you need someone with this skillset, please contact me at black@scene-si.org.
-
-I'm also the author of the following books:
-
-* [Advent of Go Microservices](https://leanpub.com/go-microservices)
-* [API Foundations in Go](https://leanpub.com/api-foundations)
-* [12 Factor Applications with Docker and Go](https://leanpub.com/12fa-docker-golang)
-
-Consider buying the books to learn something new and support my open source work.
-
-For more information, I also write a development-themed blog at [scene-si.org](https://scene-si.org/).
-I occasionally tweet my pursuits (sometimes in Slovenian) on [@TitPetric](https://twitter.com/TitPetric).
-
 # Using
 
 ## Statring the container
@@ -43,7 +26,7 @@ docker run -d --cap-add SYS_PTRACE \
            -v /sys:/host/sys:ro \
            -p 19999:19999 \
            --restart unless-stopped \
-           titpetric/netdata
+           asimpson/netdata
 ```
 
 > **Note:** Remove the `--restart unless-stopped` [parameter](https://docs.docker.com/config/containers/start-containers-automatically/#use-a-restart-policy) if you don't need the netdata container to start automatically on boot.
@@ -55,7 +38,7 @@ Use the sample [docker-compose.yml](docker-compose.yml) file.
 > **Note:** Remove the `restart: unless-stopped` [option](https://docs.docker.com/compose/compose-file/#restart) if you don't need the netdata container to start automatically on boot.
 
 ```
-mkdir netdata && cd netdata && wget https://raw.githubusercontent.com/titpetric/netdata/master/docker-compose.yml
+mkdir netdata && cd netdata && wget https://raw.githubusercontent.com/adamsimp/netdata/master/docker-compose.yml
 docker-compose up -d
 ```
 
@@ -65,7 +48,7 @@ Open a browser on http://server:19999/ and watch how your server is doing.
 
 # Supported tags and respective Dockerfile links
 
-Check out for [Docker Hub Tags page for titpetric/netdata](https://cloud.docker.com/repository/docker/titpetric/netdata/tags) if you
+Check out for [Docker Hub Tags page for asimpson/netdata](https://cloud.docker.com/repository/docker/asimpson/netdata/tags) if you
 need to grab an older version. There's an archive of versions going back from 1.4 to the current version.
 
 The `latest` tag is in line with the upstream and is occasionally prone to failure. As far as older tags go -
@@ -113,7 +96,7 @@ Alternatively, if you already have s msmtp config, you can use that config with:
 
 See the following link for details on setting up msmtp: [MSMTP - ArchWiki](https://wiki.archlinux.org/index.php/Msmtp)
 
-> Note: email settings up to version v0.10.0 were different. You can get the [old documentation](https://github.com/titpetric/netdata/blob/master/releases/v0.10.0/README.md) is the corresponding release subfolder.
+> Note: email settings up to version v0.10.0 were different. You can get the [old documentation](https://github.com/adamsimp/netdata/blob/master/releases/v0.10.0/README.md) is the corresponding release subfolder.
 
 # Adding custom alarms, charts and configuration overrides
 
@@ -253,7 +236,7 @@ See the following link for more details: [network interfaces missing when mounti
 I provided a script called `fakenet.sh` which provides a copy of the `/proc/net` filesystem. You should start this script before you start the netdata container. You can do it like this:
 
 ~~~
-wget https://raw.githubusercontent.com/titpetric/netdata/master/fakenet.sh
+wget https://raw.githubusercontent.com/adamsimp/netdata/master/fakenet.sh
 chmod a+x fakenet.sh
 nohup ./fakenet.sh >/dev/null 2>&1 &
 ~~~
@@ -291,7 +274,7 @@ What you do get (even with the docker version) is:
 
 You will not get detailed application metrics (mysql, ups, etc.) from other containers or from the host if running netdata in a container. It may be possible to get *some* of those metrics, but it might not be easy, and most likely not worth it. For most detailed metrics, netdata needs to share the same environment as the application server it monitors. This means it would need to run either in the same container (not even remotely practical), or in the same virtual machine (no containers).
 
-> Note: if you have some custom hardware like a UPS which is monitored via USB and netdata supports it, you will most likely need to add new software to the netdata docker image to support it. The correct way to do it is to create your own Dockerfile, start with "FROM titpetric/netdata" and then add all your installation commands to build your own image which will support your hardware setup. Most likely if it's not a very common setup (i.e. available on most machines), the software will not be added to `titpetric/netdata` - that being said, your use case might be useful for others so feel free to submit issues with your extensions or feature requests in terms of new software. I'll gladly add your project/extension to the README here.
+> Note: if you have some custom hardware like a UPS which is monitored via USB and netdata supports it, you will most likely need to add new software to the netdata docker image to support it. The correct way to do it is to create your own Dockerfile, start with "FROM asimpson/netdata" and then add all your installation commands to build your own image which will support your hardware setup. Most likely if it's not a very common setup (i.e. available on most machines), the software will not be added to `asimpson/netdata` - that being said, your use case might be useful for others so feel free to submit issues with your extensions or feature requests in terms of new software. I'll gladly add your project/extension to the README here.
 
 # Changelog
 
